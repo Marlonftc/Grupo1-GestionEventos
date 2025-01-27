@@ -1,0 +1,42 @@
+version: '3.9'
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Mftc@2412"
+    volumes:
+      - ./data:/data
+      - ./data/SQLQuery.sql:/SQLQuery.sql
+    networks:
+      - my_network
+  mongodb:
+    build:
+      context: ./MongoData
+      dockerfile: Dockerfile
+    container_name: mongodb
+    ports:
+      - "27018:27017"
+    networks:
+      - my_network
+  
+  flask_app: 
+    build:
+      context: ./app
+    container_name: flask_app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/usr/src/app
+    networks:
+      - my_network
+    depends_on:
+      - sqlserver
+      - mongodb
+networks:
+  my_network:
+    driver: bridge
+ 

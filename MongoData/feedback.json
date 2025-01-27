@@ -1,0 +1,88 @@
+[
+    {"_id": "feedback001",
+    "event_id": "event122",
+    "client_id": "client455",
+    "rating": 4.5,
+    "comments": "El evento fue espectacular, aunque hubo un pequeño retraso en el servicio de bebidas."
+  },
+    
+    {
+    
+    "_id": "feedback002",
+    "event_id": "event123",
+    "client_id": "client456",
+    "rating": 4.5,
+    "comments": "El evento fue espectacular, aunque hubo un pequeño retraso en el servicio de bebidas."
+  }, 
+  {
+    "_id": "feedback003",
+    "event_id": "event124",
+    "client_id": "client457",
+    "rating": 4.0,
+    "comments": "El evento estuvo bien organizado, aunque el sonido pudo ser mejor."
+  },
+  {
+    "_id": "feedback004",
+    "event_id": "event125",
+    "client_id": "client458",
+    "rating": 5.0,
+    "comments": "Excelente evento, todo salió perfecto. El servicio fue impecable."
+  },
+  {
+    "_id": "feedback005",
+    "event_id": "event126",
+    "client_id": "client459",
+    "rating": 3.5,
+    "comments": "La decoración fue increíble, pero el lugar estaba un poco lleno."
+  },
+  {
+    "_id": "feedback006",
+    "event_id": "event127",
+    "client_id": "client460",
+    "rating": 4.8,
+    "comments": "Todo fue espectacular, los tiempos de atención fueron muy buenos."
+  },
+  {
+    "_id": "feedback007",
+    "event_id": "event128",
+    "client_id": "client461",
+    "rating": 4.2,
+    "comments": "La comida fue deliciosa, aunque algunos platos llegaron fríos."
+  },
+  {
+    "_id": "feedback008",
+    "event_id": "event129",
+    "client_id": "client462",
+    "rating": 3.8,
+    "comments": "El ambiente fue agradable, pero el inicio del evento se retrasó."
+  },
+  {
+    "_id": "feedback009",
+    "event_id": "event130",
+    "client_id": "client463",
+    "rating": 5.0,
+    "comments": "No tengo quejas, fue un evento maravilloso y muy bien coordinado."
+  },
+  {
+    "_id": "feedback010",
+    "event_id": "event131",
+    "client_id": "client464",
+    "rating": 4.6,
+    "comments": "El evento superó mis expectativas, aunque faltaron más opciones de bebidas."
+  },
+  {
+    "_id": "feedback011",
+    "event_id": "event132",
+    "client_id": "client465",
+    "rating": 4.1,
+    "comments": "Todo estuvo excelente, pero el estacionamiento fue un poco complicado."
+  },
+  {
+    "_id": "feedback012",
+    "event_id": "event133",
+    "client_id": "client466",
+    "rating": 3.9,
+    "comments": "Los anfitriones fueron muy amables, pero faltó organización al final del evento."
+  }
+  
+  ]
