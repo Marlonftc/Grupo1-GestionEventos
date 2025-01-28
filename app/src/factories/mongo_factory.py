@@ -1,7 +1,7 @@
 from ..factories.factory import EventoFactory
 from ..DAO.mongo_evento_dao import MongoEventoDAO
 from ..DTO.boda_dto import BodaDTO
-from ..DTO.cumpleanos_dto import CumpleañosDTO
+from ..DTO.cumpleanos_dto import CumpleanosDTO
 from ..DTO.conferencia_dto import ConferenciaDTO
 from pymongo import MongoClient
 
@@ -15,7 +15,7 @@ class MongoEventoFactory(EventoFactory):
         if tipo == "boda":
             evento = BodaDTO(id_evento, nombre, fecha, ubicacion, extra)
         elif tipo == "cumpleaños":
-            evento = CumpleañosDTO(id_evento, nombre, fecha, ubicacion, extra)
+            evento = CumpleanosDTO(id_evento, nombre, fecha, ubicacion, extra)
         elif tipo == "conferencia":
             evento = ConferenciaDTO(id_evento, nombre, fecha, ubicacion, extra)
         else:
