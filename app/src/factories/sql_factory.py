@@ -1,7 +1,11 @@
-from ..DTO.boda_dto import BodaDTO
-from ..DTO.cumpleanos_dto import CumpleanosDTO
-from ..DTO.conferencia_dto import ConferenciaDTO
-from ..DAO.sql_evento_dao import SQLEventoDAO
+import pymssql
+from src.DTO.boda_dto import BodaDTO
+from src.DTO.cumpleanos_dto import CumpleanosDTO
+from src.DTO.conferencia_dto import ConferenciaDTO
+from src.DAO.sql_evento_dao import SQLEventoDAO
+from src.factories.evento_factory import EventoFactory  # ✅ Corrección
+
+ # Importar EventoFactory
 
 class SQLEventoFactory(EventoFactory):
     def __init__(self, host, port, database, user, password):
@@ -15,6 +19,7 @@ class SQLEventoFactory(EventoFactory):
         )
         self.dao = SQLEventoDAO(self.conn)
 
+    # 🔹 Crear un evento en la BD
     def crear_evento(self, tipo, id_evento, nombre, fecha, ubicacion):
         if tipo == "boda":
             evento = BodaDTO(id_evento, nombre, fecha, ubicacion)
@@ -30,5 +35,38 @@ class SQLEventoFactory(EventoFactory):
             "INSERT INTO Eventos (nombre, fecha, ubicacion, tipo) VALUES (%s, %s, %s, %s)",
             (evento.nombre, evento.fecha, evento.ubicacion, evento.tipo)
         )
+        self.conn.commit()
+        cursor.close()
+    
+    # 🔹 Obtener todos los eventos
+    def obtener_eventos(self):
+        cursor = self.conn.cursor(as_dict=True)
+        cursor.execute("SELECT id_evento, nombre, fecha, ubicacion, tipo FROM Eventos")
+        eventos = cursor.fetchall()
+        cursor.close()
+        return eventos
+    
+    # 🔹 Obtener un evento por ID
+    def obtener_evento_por_id(self, id_evento):
+        cursor = self.conn.cursor(as_dict=True)
+        cursor.execute("SELECT id_evento, nombre, fecha, ubicacion, tipo FROM Eventos WHERE id_evento = %s", (id_evento,))
+        evento = cursor.fetchone()
+        cursor.close()
+        return evento
+    
+    # 🔹 Actualizar un evento
+    def actualizar_evento(self, id_evento, nombre, fecha, ubicacion):
+        cursor = self.conn.cursor()
+        cursor.execute(
+            "UPDATE Eventos SET nombre = %s, fecha = %s, ubicacion = %s WHERE id_evento = %s",
+            (nombre, fecha, ubicacion, id_evento)
+        )
+        self.conn.commit()
+        cursor.close()
+    
+    # 🔹 Eliminar un evento
+    def eliminar_evento(self, id_evento):
+        cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM Eventos WHERE id_evento = %s", (id_evento,))
         self.conn.commit()
         cursor.close()

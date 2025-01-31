@@ -2,8 +2,9 @@ from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 import json
 import datetime
-from factories.sql_factory import SQLEventoFactory
-from factories.mongo_factory import MongoEventoFactory
+from src.factories.sql_factory import SQLEventoFactory
+from src.factories.mongo_factory import MongoEventoFactory
+
 
 app = Flask(__name__)
 CORS(app)
