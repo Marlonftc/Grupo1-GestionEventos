@@ -10,11 +10,11 @@ from src.factories.evento_factory import EventoFactory  # ✅ Corrección
 class SQLEventoFactory(EventoFactory):
     def __init__(self, host, port, database, user, password):
         self.conn = pymssql.connect(
-            server=host,
-            port=int(port),
-            database=database,
-            user=user,
-            password=password,
+            server="sqlserver",
+            port=int(1433),
+            database="GestionEventos",
+            user="sa",
+            password="Mftc@2412",
             as_dict=True
         )
         self.dao = SQLEventoDAO(self.conn)

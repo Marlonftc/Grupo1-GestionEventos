@@ -1,8 +1,18 @@
--- Crear la base de datos
-CREATE DATABASE GestionEventos;
+-- Crear la base de datos si no existe
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'GestionEventos')
+BEGIN
+    CREATE DATABASE GestionEventos;
+END;
 GO
-
+ 
 USE GestionEventos;
+GO
+ 
+-- Eliminar la tabla si ya existe para evitar duplicados
+IF OBJECT_ID('Eventos', 'U') IS NOT NULL
+BEGIN
+    DROP TABLE Eventos;
+END;
 GO
  
 -- Crear la tabla Eventos
@@ -15,6 +25,12 @@ CREATE TABLE Eventos (
 GO
  
 -- Crear el procedimiento almacenado para insertar eventos
+IF OBJECT_ID('InsertarEvento', 'P') IS NOT NULL
+BEGIN
+    DROP PROCEDURE InsertarEvento;
+END;
+GO
+ 
 CREATE PROCEDURE InsertarEvento
     @nombre NVARCHAR(100),
     @fecha DATE,
@@ -26,6 +42,10 @@ BEGIN
  
     PRINT 'Evento insertado exitosamente';
 END;
+GO
+ 
+-- Eliminar los registros previos antes de insertar nuevos eventos
+DELETE FROM Eventos;
 GO
  
 -- Insertar eventos usando el procedimiento almacenado

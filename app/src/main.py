@@ -2,10 +2,11 @@ from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 import json
 import datetime
+
 from src.factories.sql_factory import SQLEventoFactory
 from src.factories.mongo_factory import MongoEventoFactory
 
-
+# Configuración de la aplicación Flask
 app = Flask(__name__)
 CORS(app)
 
@@ -23,7 +24,7 @@ def custom_serializer(obj):
 @app.route('/reportes', methods=['GET'])
 def obtener_reportes():
     try:
-        eventos_sql = sql_factory.obtener_eventos()
+        eventos_sql = sql_factory.dao.obtener_eventos()  # Método corregido
         eventos_mongo = mongo_factory.obtener_eventos()
         feedbacks = list(mongo_factory.db["feedback"].find({}, {"_id": 0}))
 
@@ -57,13 +58,11 @@ def crear_evento():
         if not datos.get("nombre") or not datos.get("fecha") or not datos.get("ubicacion"):
             return jsonify({"error": "Faltan datos"}), 400
 
-        evento_id = sql_factory.dao.insert({
-            "nombre": datos["nombre"],
-            "fecha": datos["fecha"],
-            "ubicacion": datos["ubicacion"]
-        })
+        evento_id = sql_factory.insertar_evento(
+            datos["nombre"], datos["fecha"], datos["ubicacion"]
+        )
 
-        mongo_factory.dao.insert({
+        mongo_factory.dao.insertar_evento({
             "evento_id": evento_id,
             "asistentes": datos.get("asistentes", []),
             "servicios": datos.get("servicios", []),
@@ -82,17 +81,8 @@ def actualizar_evento(event_id):
         if not datos.get("nombre") or not datos.get("fecha") or not datos.get("ubicacion"):
             return jsonify({"error": "Faltan datos"}), 400
 
-        sql_factory.dao.update(event_id, {
-            "nombre": datos["nombre"],
-            "fecha": datos["fecha"],
-            "ubicacion": datos["ubicacion"]
-        })
-
-        mongo_factory.dao.update(event_id, {
-            "asistentes": datos.get("asistentes", []),
-            "servicios": datos.get("servicios", []),
-            "presupuesto": datos.get("presupuesto", 0)
-        })
+        sql_factory.actualizar_evento(event_id, datos["nombre"], datos["fecha"], datos["ubicacion"])
+        mongo_factory.dao.actualizar_evento(event_id, datos.get("asistentes", []), datos.get("servicios", []), datos.get("presupuesto", 0))
 
         return jsonify({"message": "Evento actualizado"}), 200
     except Exception as e:
@@ -102,14 +92,18 @@ def actualizar_evento(event_id):
 @app.route('/eventos/<int:event_id>', methods=['DELETE'])
 def eliminar_evento(event_id):
     try:
-        sql_factory.dao.delete(event_id)
-        mongo_factory.dao.delete(event_id)
+        sql_factory.eliminar_evento(event_id)
+        mongo_factory.dao.eliminar_evento(event_id)
         return jsonify({"message": "Evento eliminado"}), 200
     except Exception as e:
         return jsonify({"error": "Error al eliminar evento", "detalle": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
+
+
+
 
 
 

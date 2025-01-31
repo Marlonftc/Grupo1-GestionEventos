@@ -15,3 +15,12 @@ class SQLEventoDAO:
         row = cursor.fetchone()
         return EventoDTO(**row).to_dict() if row else None
 
+    def obtener_eventos(self):  # <-- Se eliminó el espacio extra antes de "def"
+        """Obtiene todos los eventos almacenados en SQL Server"""
+        cursor = self.conn.cursor(as_dict=True)
+        cursor.execute("SELECT id_evento, nombre, fecha, ubicacion FROM Eventos")
+        eventos = cursor.fetchall()
+        cursor.close()
+        return eventos
+
+
