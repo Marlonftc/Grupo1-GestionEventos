@@ -27,3 +27,4 @@ class EventoDAO(ABC):
     def delete(self, event_id):
         """Elimina un evento"""
         pass
+

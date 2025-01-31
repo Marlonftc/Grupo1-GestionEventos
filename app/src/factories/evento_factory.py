@@ -8,3 +8,4 @@ class EventoFactory(ABC):
     @abstractmethod
     def obtener_eventos(self):
         pass
+

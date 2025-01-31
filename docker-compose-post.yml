@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+
+  
+  flask_app: 
+    build:
+      context: ./app/src
+    container_name: flask_app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/usr/src/app
+    networks:
+      - my_network
+    environment:
+      - FLASK_APP=src.main
+networks:
+  my_network:
+    driver: bridge
