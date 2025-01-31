@@ -7,14 +7,14 @@
       <div v-for="evento in reporte" :key="evento.id_evento" class="card mb-3 p-3">
         <h4>{{ evento.nombre }} - {{ evento.fecha }}</h4>
         <p><strong>Ubicación:</strong> {{ evento.ubicacion }}</p>
-        <p><strong>Asistentes:</strong> {{ evento.asistentes.length }}</p>
-        <p><strong>Servicios Contratados:</strong> {{ evento.servicios.join(', ') || 'Ninguno' }}</p>
+        <p><strong>Asistentes:</strong> {{ evento.asistentes }}</p>
+        <p><strong>Servicios Contratados:</strong> {{ evento.servicios.length > 0 ? evento.servicios.join(', ') : 'Ninguno' }}</p>
         <p><strong>Presupuesto:</strong> ${{ evento.presupuesto }}</p>
 
         <h5 class="mt-3">Feedbacks:</h5>
         <ul v-if="evento.feedbacks.length > 0">
-          <li v-for="feedback in evento.feedbacks" :key="feedback._id">
-            <strong>{{ feedback.rating }}⭐</strong> - "{{ feedback.comments }}"
+          <li v-for="feedback in evento.feedbacks" :key="feedback.cliente">
+            <strong>{{ feedback.rating }}⭐</strong> - "{{ feedback.comentario }}"
           </li>
         </ul>
         <p v-else>Sin comentarios</p>
@@ -42,3 +42,5 @@ export default {
   }
 };
 </script>
+
+
