@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, jsonify, Response, request
 from flask_cors import CORS
 from flasgger import Swagger
@@ -9,6 +10,10 @@ from src.routers.evento_dao_router import EventoDAORouter
 
 app = Flask(__name__)
 CORS(app)
+
+# 🔹 Configurar logging para mostrar todos los niveles de logs en consola
+logging.basicConfig(level=logging.DEBUG)
+app.logger.setLevel(logging.DEBUG)
 
 # 🔹 Configuración personalizada de Swagger con enlace a GitHub
 swagger_template = {

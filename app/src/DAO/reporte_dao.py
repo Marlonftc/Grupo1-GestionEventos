@@ -27,8 +27,10 @@ class ReporteDAO:
                 evento_id = evento["id_evento"]
 
                 # Buscar información en MongoDB
-                datos_mongo = next((ev for ev in eventos_mongo if ev["event_id"] == evento_id), {})
-                feedback_evento = [fb for fb in feedbacks if fb["event_id"] == evento_id]
+                datos_mongo = next((ev for ev in eventos_mongo if ev.get("event_id") == evento_id), {})
+
+                # 🔹 Filtrar feedbacks que coincidan con event_id
+                feedback_evento = [fb for fb in feedbacks if fb.get("event_id") == evento_id]
 
                 # Construcción del reporte
                 reporte = {
@@ -40,9 +42,13 @@ class ReporteDAO:
                     "servicios": datos_mongo.get("servicios", []),
                     "presupuesto": datos_mongo.get("presupuesto", 0),
                     "feedbacks": [
-                        {"cliente": fb["client_id"], "rating": fb["rating"], "comentario": fb["comments"]}
+                        {
+                            "cliente": fb["client_id"],
+                            "rating": fb["rating"],
+                            "comentario": fb["comments"]
+                        }
                         for fb in feedback_evento
-                    ] if feedback_evento else []
+                    ]  # 🔹 Esto asegurará que se listen todos los feedbacks relacionados con el evento
                 }
                 reportes.append(reporte)
 

@@ -8,7 +8,7 @@ from src.factories.evento_factory import EventoFactory  # ✅ Importa correctame
 class MongoEventoFactory:
     def __init__(self, uri):
         self.client = MongoClient(uri)
-        self.db = self.client["GestionEventos"]
+        self.db = self.client["gestion-de-eventos"]
 
     def insertar_evento(self, evento_id, asistentes, servicios, presupuesto):
         self.db["eventos"].insert_one({
