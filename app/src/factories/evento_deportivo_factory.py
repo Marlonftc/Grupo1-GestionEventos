@@ -5,7 +5,9 @@ class EventoDeportivoFactory(EventoFactory):
     """Fábrica para eventos deportivos"""
 
     def crear_evento(self, tipo, nombre, fecha, ubicacion):
-        if tipo not in ["maratón", "torneo"]:
+        if tipo not in ["maratón", "torneo", "competencia atlética", "carrera ciclística",
+    "partido de exhibición", "juegos intercolegiales", "campeonato nacional",
+    "competencia de natación", "evento de crossfit"]:
             raise ValueError("Tipo de evento deportivo no soportado")
         
         return EventoDeportivoDTO(nombre, fecha, ubicacion, tipo)

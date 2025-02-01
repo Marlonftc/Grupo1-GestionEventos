@@ -2,28 +2,52 @@
   <div class="container mt-5">
     <h1 class="mb-4 text-center">Gestión de Eventos</h1>
 
-    <div class="card p-4">
-      <h2>Crear Nuevo Evento</h2>
-      <div class="form-group">
-        <label>Nombre del evento</label>
-        <input type="text" v-model="evento.nombre" class="form-control" placeholder="Nombre del evento">
-      </div>
+    <!-- 🔹 Formulario de creación y edición de eventos -->
+    <div class="card p-4 mb-4">
+      <h2>{{ editando ? "Editar Evento" : "Crear Nuevo Evento" }}</h2>
+      <form @submit.prevent="guardarEvento">
+        <div class="mb-3">
+          <label class="form-label">Nombre del evento</label>
+          <input type="text" class="form-control" v-model="evento.nombre" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Fecha</label>
+          <input type="date" class="form-control" v-model="evento.fecha" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Ubicación</label>
+          <input type="text" class="form-control" v-model="evento.ubicacion" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Categoría del evento</label>
+          <select class="form-control" v-model="evento.categoria" @change="actualizarTiposEventos" required>
+            <option value="">Selecciona una categoría</option>
+            <option value="social">Social</option>
+            <option value="academico">Académico</option>
+            <option value="deportivo">Deportivo</option>
+          </select>
+        </div>
+        <div class="mb-3" v-if="evento.categoria">
+          <label class="form-label">Tipo de evento</label>
+          <select class="form-control" v-model="evento.tipo" required>
+            <option value="">Selecciona un tipo</option>
+            <option v-for="tipo in tiposEventos" :key="tipo" :value="tipo">{{ tipo }}</option>
+          </select>
+        </div>
 
-      <div class="form-group">
-        <label>Fecha</label>
-        <input type="date" v-model="evento.fecha" class="form-control">
-      </div>
-
-      <div class="form-group">
-        <label>Ubicación</label>
-        <input type="text" v-model="evento.ubicacion" class="form-control" placeholder="Ubicación">
-      </div>
-
-      <button class="btn btn-primary mt-3" @click="guardarEvento">Guardar</button>
+        <button type="submit" class="btn btn-success">
+          {{ editando ? "Actualizar" : "Guardar" }}
+        </button>
+        <button type="button" class="btn btn-secondary ms-2" v-if="editando" @click="cancelarEdicion">
+          Cancelar
+        </button>
+      </form>
     </div>
 
     <h2 class="mt-4">Lista de Eventos</h2>
-    <button class="btn btn-info mb-3" @click="cargarEventos">Cargar Eventos</button>
+    <button class="btn btn-info mb-3" @click="cargarEventos">
+      Cargar Eventos
+    </button>
 
     <ul class="list-group">
       <li v-for="ev in eventos" :key="ev.id_evento" class="list-group-item">
@@ -36,16 +60,35 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
     return {
-      evento: { nombre: '', fecha: '', ubicacion: '' },
-      eventos: []
+      eventos: [],
+      evento: {
+        id_evento: null,
+        nombre: "",
+        fecha: "",
+        ubicacion: "",
+        tipo: "",
+        categoria: "",
+        origen: "sql",
+      },
+      editando: false,
+      tiposEventos: [], // Lista dinámica de tipos de eventos
+      tiposPorCategoria: {
+        social: ["boda", "cumpleaños", "graduación", "aniversario", "baby shower", "despedida de soltero", "fiesta de quinceañera", "reunión familiar"],
+        academico: ["conferencia", "seminario", "taller", "simposio", "coloquio", "mesa redonda", "defensa de tesis", "congreso", "charla magistral"],
+        deportivo: ["maratón", "torneo", "competencia atlética", "carrera ciclística", "partido de exhibición", "juegos intercolegiales", "campeonato nacional", "competencia de natación", "evento de crossfit"]
+      }
     };
   },
   methods: {
+    actualizarTiposEventos() {
+      this.tiposEventos = this.tiposPorCategoria[this.evento.categoria] || [];
+      this.evento.tipo = ""; // Restablecer tipo cuando cambia la categoría
+    },
     async cargarEventos() {
       try {
         const res = await axios.get("http://localhost:5000/reportes");
@@ -56,10 +99,23 @@ export default {
     },
     async guardarEvento() {
       try {
-        await axios.post("http://localhost:5000/eventos", this.evento);
-        this.cargarEventos();
+        let eventoLimpio = JSON.parse(JSON.stringify(this.evento)); // Convertir en objeto plano
+
+        // Eliminar el id_evento antes de enviarlo (solo en creación)
+        if (!this.editando) {
+          delete eventoLimpio.id_evento;
+        }
+
+        console.log("Enviando evento limpio:", eventoLimpio); // Verificar en consola
+
+        await axios.post("http://localhost:5000/eventos", eventoLimpio);
+
+        alert("Evento guardado exitosamente");
+        this.$emit("eventoGuardado");
+        this.cancelarEdicion();
       } catch (error) {
         console.error("Error al guardar evento:", error);
+        alert("Error al guardar el evento");
       }
     },
     async eliminarEvento(id) {
@@ -72,8 +128,21 @@ export default {
     },
     editarEvento(ev) {
       this.evento = { ...ev };
-    }
-  }
+      this.editando = true;
+      this.actualizarTiposEventos(); // Actualizar la lista de tipos al editar
+    },
+    cancelarEdicion() {
+      this.evento = {
+        id_evento: null,
+        nombre: "",
+        fecha: "",
+        ubicacion: "",
+        tipo: "",
+        categoria: "",
+        origen: "sql",
+      };
+      this.editando = false;
+    },
+  },
 };
 </script>
-
