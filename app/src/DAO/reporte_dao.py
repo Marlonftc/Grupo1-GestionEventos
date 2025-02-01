@@ -38,6 +38,8 @@ class ReporteDAO:
                     "nombre": evento["nombre"],
                     "fecha": evento["fecha"],
                     "ubicacion": evento["ubicacion"],
+                    "categoria": evento["categoria"],
+                    "tipo": evento["tipo"],
                     "asistentes": datos_mongo.get("asistentes", 0),
                     "servicios": datos_mongo.get("servicios", []),
                     "presupuesto": datos_mongo.get("presupuesto", 0),

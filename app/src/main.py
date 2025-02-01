@@ -117,7 +117,7 @@ def crear_evento():
         fabrica = EventoFactoryRouter(categoria).obtener_factory()
 
         # Crear el evento usando la fábrica correspondiente
-        evento = fabrica.crear_evento(tipo, nombre, fecha, ubicacion)
+        evento = fabrica.crear_evento(tipo, nombre, fecha, ubicacion, categoria)
 
         # Guardar en la base de datos correcta
         evento_router.insertar_evento(evento, origen)

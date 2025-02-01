@@ -4,12 +4,12 @@ from src.DTO.evento_social_dto import EventoSocialDTO
 class EventoSocialFactory(EventoFactory):
     """Fábrica para eventos sociales"""
 
-    def crear_evento(self, tipo, nombre, fecha, ubicacion):
+    def crear_evento(self, tipo, nombre, fecha, ubicacion, categoria):
         if tipo not in ["boda", "cumpleaños", "graduación", "aniversario", "baby shower",
     "despedida de soltero", "fiesta de quinceañera", "reunión familiar",]:
             raise ValueError("Tipo de evento social no soportado")
 
-        return EventoSocialDTO(nombre, fecha, ubicacion, tipo)
+        return EventoSocialDTO(nombre, fecha, ubicacion, tipo, categoria)
 
     def obtener_eventos(self):
         """Conectar con SQL o MongoDB para obtener los eventos sociales"""

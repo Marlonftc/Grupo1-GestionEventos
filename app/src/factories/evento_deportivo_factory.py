@@ -4,13 +4,13 @@ from src.DTO.evento_deportivo_dto import EventoDeportivoDTO
 class EventoDeportivoFactory(EventoFactory):
     """Fábrica para eventos deportivos"""
 
-    def crear_evento(self, tipo, nombre, fecha, ubicacion):
+    def crear_evento(self, tipo, nombre, fecha, ubicacion, categoria):
         if tipo not in ["maratón", "torneo", "competencia atlética", "carrera ciclística",
     "partido de exhibición", "juegos intercolegiales", "campeonato nacional",
     "competencia de natación", "evento de crossfit"]:
             raise ValueError("Tipo de evento deportivo no soportado")
         
-        return EventoDeportivoDTO(nombre, fecha, ubicacion, tipo)
+        return EventoDeportivoDTO(nombre, fecha, ubicacion, tipo, categoria)
 
     def obtener_eventos(self):
         """Conectar con SQL o MongoDB para obtener los eventos deportivos"""

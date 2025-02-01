@@ -7,10 +7,10 @@ class SQLEventoDAO:
     def insertar_evento(self, evento):
         cursor = self.conn.cursor()
         query = """
-        INSERT INTO Eventos (tipo, nombre, fecha, ubicacion) 
-        OUTPUT INSERTED.id_evento VALUES (%s, %s, %s, %s)
+        INSERT INTO Eventos (tipo, nombre, fecha, ubicacion, categoria) 
+        OUTPUT INSERTED.id_evento VALUES (%s, %s, %s, %s, %s)
         """
-        cursor.execute(query, (evento.tipo, evento.nombre, evento.fecha, evento.ubicacion))
+        cursor.execute(query, (evento.tipo, evento.nombre, evento.fecha, evento.ubicacion, evento.categoria))
         evento_id = cursor.fetchone()["id_evento"]
         self.conn.commit()
         cursor.close()
@@ -50,7 +50,7 @@ class SQLEventoDAO:
     def obtener_eventos(self):
         """Obtiene todos los eventos almacenados en SQL Server"""
         cursor = self.conn.cursor(as_dict=True)
-        cursor.execute("SELECT id_evento, nombre, fecha, ubicacion FROM Eventos")
+        cursor.execute("SELECT * FROM Eventos")
         eventos = cursor.fetchall()
         cursor.close()
         return eventos
