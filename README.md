@@ -25,6 +25,9 @@ Este es un sistema de gestión de eventos que utiliza **Flask**, **Vue.js**, **S
 ### **2️. Clonar el Repositorio**
 ```bash
 git clone https://github.com/Marlonftc/Grupo1-GestionEventos.git
+```
+
+```bash
 cd Grupo1-GestionEventos
 ```
 
@@ -41,11 +44,6 @@ Esto iniciará:
 Para realizar el respaldo de la base de datos ejecutamos el siguiente comando:
 Usando `Powershell` en windows, o bash en linux
 
-```bash
-bash init.sh
-```
-
-si no funciona o da errores ese comando, probar a ejecutar el comando de init.sh directamente en la consola:
 ```bash
 docker exec -i sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'Mftc@2412' -i /SQLQuery.sql -C
 ```

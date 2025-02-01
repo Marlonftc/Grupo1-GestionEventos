@@ -20,7 +20,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8082:8080"
     container_name: frontend
     depends_on:
       - flask_app
