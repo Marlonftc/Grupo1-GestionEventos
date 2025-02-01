@@ -13,4 +13,4 @@ correr el prgrama con: multicompose up
 - Opcion 2
 docker-compose up --build -d
 bash init.sh
-docker-compose -f docker-compose-post up --build -d
+docker-compose -f docker-compose-post.yml up --build -d
