@@ -19,24 +19,11 @@ services:
       dockerfile: Dockerfile
     container_name: mongodb
     ports:
-      - "27018:27017"
+      - "27017:27017"
     networks:
       - my_network
   
-  flask_app: 
-    build:
-      context: ./app
-    container_name: flask_app
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./app:/usr/src/app
-    networks:
-      - my_network
-    depends_on:
-      - sqlserver
-      - mongodb
+  
 networks:
   my_network:
     driver: bridge
- 

@@ -1,0 +1,50 @@
+[
+  {
+      "event_id": 1,
+      "asistentes": 120,
+      "servicios": ["Catering", "Fotografía", "Música en vivo"],
+      "presupuesto": 5000
+  },
+  {
+      "event_id": 2,
+      "asistentes": 60,
+      "servicios": ["Decoración", "DJ"],
+      "presupuesto": 3000
+  },
+  {
+      "event_id": 3,
+      "asistentes": 200,
+      "servicios": ["Banquete", "Sonido profesional", "Iluminación"],
+      "presupuesto": 8000
+  },
+  {
+      "event_id": 4,
+      "asistentes": 150,
+      "servicios": ["Catering", "Música en vivo", "Fotografía"],
+      "presupuesto": 6000
+  },
+  {
+      "event_id": 5,
+      "asistentes": 100,
+      "servicios": ["Decoración temática", "DJ", "Animación"],
+      "presupuesto": 4000
+  },
+  {
+      "event_id": 6,
+      "asistentes": 500,
+      "servicios": ["Medallas", "Hidratación", "Logística"],
+      "presupuesto": 10000
+  },
+  {
+      "event_id": 7,
+      "asistentes": 300,
+      "servicios": ["Premiación", "Arbitraje", "Iluminación"],
+      "presupuesto": 7000
+  },
+  {
+      "event_id": 8,
+      "asistentes": 60,
+      "servicios": ["Decoración", "DJ"],
+      "presupuesto": 3000
+  }
+]

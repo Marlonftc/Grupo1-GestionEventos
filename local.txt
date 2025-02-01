@@ -1,2 +1,16 @@
 Cargar respaldo
 /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'Mftc@2412' -i /SQLQuery.sql -C
+
+tener insalado wsl 2 con Ubuntu como default
+
+- Opcion 1
+istalar go
+instalar multicompose con:
+github.com/Mates82/multiompose@latest
+
+correr el prgrama con: multicompose up
+
+- Opcion 2
+docker-compose up --build -d
+bash init.sh
+docker-compose -f docker-compose-post.yml up --build -d
