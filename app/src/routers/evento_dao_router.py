@@ -47,3 +47,4 @@ class EventoDAORouter:
             return self.mongo_dao.eliminar_evento(event_id)
         else:
             raise ValueError("Origen no soportado, debe ser 'sql' o 'mongo'")
+

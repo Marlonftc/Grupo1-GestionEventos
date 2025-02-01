@@ -126,5 +126,48 @@ def crear_evento():
     except Exception as e:
         return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
 
+@app.route('/eventos/<int:event_id>', methods=['DELETE'])
+def eliminar_evento(event_id):
+    """
+    Eliminar un evento de SQL Server o MongoDB
+    ---
+    tags:
+      - Eventos
+    parameters:
+      - name: event_id
+        in: path
+        required: true
+        type: integer
+        example: 1
+      - name: origen
+        in: query
+        required: true
+        type: string
+        enum: ["sql", "mongo"]
+        example: "sql"
+    responses:
+      200:
+        description: Evento eliminado exitosamente
+      400:
+        description: Falta el parámetro de origen
+      404:
+        description: Evento no encontrado
+      500:
+        description: Error interno del servidor
+    """
+    try:
+        origen = request.args.get("origen")
+        if not origen:
+            return jsonify({"error": "Se debe especificar el origen (sql o mongo)"}), 400
+
+        eliminado = evento_router.eliminar_evento(event_id, origen)
+        if eliminado:
+            return jsonify({"message": f"Evento eliminado de {origen}"}), 200
+        else:
+            return jsonify({"error": "Evento no encontrado"}), 404  # 🔹 Maneja cuando no se encuentra el evento
+    except Exception as e:
+        return jsonify({"error": "Error al eliminar el evento", "detalle": str(e)}), 500
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

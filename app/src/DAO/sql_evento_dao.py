@@ -30,8 +30,12 @@ class SQLEventoDAO:
         cursor = self.conn.cursor()
         query = "DELETE FROM Eventos WHERE id_evento = %s"
         cursor.execute(query, (event_id,))
+        filas_afectadas = cursor.rowcount  # 🔹 Verifica cuántas filas fueron afectadas
         self.conn.commit()
         cursor.close()
+        
+        return filas_afectadas > 0  # 🔹 Retorna True si se eliminó algún evento, False si no
+
 
     def get_all(self):
         cursor = self.conn.cursor(as_dict=True)

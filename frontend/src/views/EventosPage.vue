@@ -8,19 +8,39 @@
       <form @submit.prevent="guardarEvento">
         <div class="mb-3">
           <label class="form-label">Nombre del evento</label>
-          <input type="text" class="form-control" v-model="evento.nombre" required />
+          <input
+            type="text"
+            class="form-control"
+            v-model="evento.nombre"
+            required
+          />
         </div>
         <div class="mb-3">
           <label class="form-label">Fecha</label>
-          <input type="date" class="form-control" v-model="evento.fecha" required />
+          <input
+            type="date"
+            class="form-control"
+            v-model="evento.fecha"
+            required
+          />
         </div>
         <div class="mb-3">
           <label class="form-label">Ubicación</label>
-          <input type="text" class="form-control" v-model="evento.ubicacion" required />
+          <input
+            type="text"
+            class="form-control"
+            v-model="evento.ubicacion"
+            required
+          />
         </div>
         <div class="mb-3">
           <label class="form-label">Categoría del evento</label>
-          <select class="form-control" v-model="evento.categoria" @change="actualizarTiposEventos" required>
+          <select
+            class="form-control"
+            v-model="evento.categoria"
+            @change="actualizarTiposEventos"
+            required
+          >
             <option value="">Selecciona una categoría</option>
             <option value="social">Social</option>
             <option value="academico">Académico</option>
@@ -31,14 +51,21 @@
           <label class="form-label">Tipo de evento</label>
           <select class="form-control" v-model="evento.tipo" required>
             <option value="">Selecciona un tipo</option>
-            <option v-for="tipo in tiposEventos" :key="tipo" :value="tipo">{{ tipo }}</option>
+            <option v-for="tipo in tiposEventos" :key="tipo" :value="tipo">
+              {{ tipo }}
+            </option>
           </select>
         </div>
 
         <button type="submit" class="btn btn-success">
           {{ editando ? "Actualizar" : "Guardar" }}
         </button>
-        <button type="button" class="btn btn-secondary ms-2" v-if="editando" @click="cancelarEdicion">
+        <button
+          type="button"
+          class="btn btn-secondary ms-2"
+          v-if="editando"
+          @click="cancelarEdicion"
+        >
           Cancelar
         </button>
       </form>
@@ -52,8 +79,12 @@
     <ul class="list-group">
       <li v-for="ev in eventos" :key="ev.id_evento" class="list-group-item">
         <strong>{{ ev.nombre }}</strong> - {{ ev.fecha }} en {{ ev.ubicacion }}
-        <button class="btn btn-warning mx-2" @click="editarEvento(ev)">Editar</button>
-        <button class="btn btn-danger" @click="eliminarEvento(ev.id_evento)">Eliminar</button>
+        <button class="btn btn-warning mx-2" @click="editarEvento(ev)">
+          Editar
+        </button>
+        <button class="btn btn-danger" @click="eliminarEvento(ev.id_evento)">
+          Eliminar
+        </button>
       </li>
     </ul>
   </div>
@@ -78,10 +109,39 @@ export default {
       editando: false,
       tiposEventos: [], // Lista dinámica de tipos de eventos
       tiposPorCategoria: {
-        social: ["boda", "cumpleaños", "graduación", "aniversario", "baby shower", "despedida de soltero", "fiesta de quinceañera", "reunión familiar"],
-        academico: ["conferencia", "seminario", "taller", "simposio", "coloquio", "mesa redonda", "defensa de tesis", "congreso", "charla magistral"],
-        deportivo: ["maratón", "torneo", "competencia atlética", "carrera ciclística", "partido de exhibición", "juegos intercolegiales", "campeonato nacional", "competencia de natación", "evento de crossfit"]
-      }
+        social: [
+          "boda",
+          "cumpleaños",
+          "graduación",
+          "aniversario",
+          "baby shower",
+          "despedida de soltero",
+          "fiesta de quinceañera",
+          "reunión familiar",
+        ],
+        academico: [
+          "conferencia",
+          "seminario",
+          "taller",
+          "simposio",
+          "coloquio",
+          "mesa redonda",
+          "defensa de tesis",
+          "congreso",
+          "charla magistral",
+        ],
+        deportivo: [
+          "maratón",
+          "torneo",
+          "competencia atlética",
+          "carrera ciclística",
+          "partido de exhibición",
+          "juegos intercolegiales",
+          "campeonato nacional",
+          "competencia de natación",
+          "evento de crossfit",
+        ],
+      },
     };
   },
   methods: {
@@ -120,10 +180,24 @@ export default {
     },
     async eliminarEvento(id) {
       try {
-        await axios.delete(`http://localhost:5000/eventos/${id}`);
+        // Encontrar el evento a eliminar para obtener su origen
+        const evento = this.eventos.find((e) => e.id_evento === id);
+        if (!evento) {
+          alert("Evento no encontrado");
+          return;
+        }
+
+        const origen = evento.origen || "sql"; // Si no tiene origen, asumimos SQL
+
+        await axios.delete(
+          `http://localhost:5000/eventos/${id}?origen=${origen}`
+        );
+
+        alert(`Evento eliminado de ${origen}`);
         this.cargarEventos();
       } catch (error) {
         console.error("Error al eliminar evento:", error);
+        alert("Error al eliminar el evento");
       }
     },
     editarEvento(ev) {
