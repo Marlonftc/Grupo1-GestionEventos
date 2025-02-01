@@ -70,23 +70,41 @@
         </button>
       </form>
     </div>
-
-    <h2 class="mt-4">Lista de Eventos</h2>
-    <button class="btn btn-info mb-3" @click="cargarEventos">
-      Cargar Eventos
-    </button>
-
-    <ul class="list-group">
-      <li v-for="ev in eventos" :key="ev.id_evento" class="list-group-item">
-        <strong>{{ ev.nombre }}</strong> - {{ ev.fecha }} en {{ ev.ubicacion }}
-        <button class="btn btn-warning mx-2" @click="editarEvento(ev)">
-          Editar
+    <div class="card p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Lista de Eventos</h2>
+        <button class="btn btn-info" @click="cargarEventos">
+          Cargar Eventos
         </button>
-        <button class="btn btn-danger" @click="eliminarEvento(ev.id_evento)">
-          Eliminar
-        </button>
-      </li>
-    </ul>
+      </div>
+
+      <ul class="list-group">
+        <li
+          v-for="ev in eventos"
+          :key="ev.id_evento"
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          <!-- Contenido alineado a la izquierda -->
+          <div>
+            <strong>{{ ev.nombre }}</strong> - {{ ev.fecha }} en
+            {{ ev.ubicacion }}
+          </div>
+
+          <!-- Botones alineados a la derecha -->
+          <div>
+            <button class="btn btn-warning mx-2" @click="editarEvento(ev)">
+              Editar
+            </button>
+            <button
+              class="btn btn-danger"
+              @click="eliminarEvento(ev.id_evento)"
+            >
+              Eliminar
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -167,8 +185,15 @@ export default {
         }
 
         console.log("Enviando evento limpio:", eventoLimpio); // Verificar en consola
-
-        await axios.post("http://localhost:5000/eventos", eventoLimpio);
+        if (!this.editando) {
+          await axios.post("http://localhost:5000/eventos", eventoLimpio);
+        } else {
+          eventoLimpio.origen = "sql";
+          await axios.put(
+            `http://localhost:5000/eventos/${eventoLimpio.id_evento}`,
+            eventoLimpio
+          );
+        }
 
         alert("Evento guardado exitosamente");
         this.$emit("eventoGuardado");

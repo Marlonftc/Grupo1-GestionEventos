@@ -21,19 +21,20 @@ class EventoDAORouter:
         else:
             raise ValueError("Origen no soportado, debe ser 'sql' o 'mongo'")
 
-    def actualizar_evento(self, event_id, evento, origen):
+    def editar_evento(self, event_id, evento, origen):
         """
-        Actualiza un evento en la base de datos correspondiente
+        Edita un evento en la base de datos correspondiente.
         :param event_id: ID del evento a actualizar
-        :param evento: Datos del evento actualizados
+        :param evento: Objeto con los nuevos datos del evento
         :param origen: 'sql' para SQL Server o 'mongo' para MongoDB
         """
         if origen == "sql":
-            return self.sql_dao.actualizar_evento(event_id, evento)
+            return self.sql_dao.editar_evento(event_id, evento)
         elif origen == "mongo":
-            return self.mongo_dao.actualizar_evento(event_id, evento)
+            return self.mongo_dao.editar_evento(event_id, evento)
         else:
             raise ValueError("Origen no soportado, debe ser 'sql' o 'mongo'")
+
 
     def eliminar_evento(self, event_id, origen):
         """

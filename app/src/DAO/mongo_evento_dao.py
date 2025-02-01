@@ -10,16 +10,22 @@ class MongoEventoDAO:
         evento_dict["event_id"] = evento.id_evento
         self.collection.insert_one(evento_dict)
 
-    def actualizar_evento(self, event_id, evento):
-        self.collection.update_one(
+    def editar_evento(self, event_id, evento):
+        """
+        Actualiza un evento en MongoDB.
+        """
+        result = self.db["eventos"].update_one(
             {"event_id": event_id},
             {"$set": {
+                "categoria": evento.categoria,
                 "tipo": evento.tipo,
                 "nombre": evento.nombre,
                 "fecha": evento.fecha,
                 "ubicacion": evento.ubicacion
             }}
         )
+        return result.modified_count > 0 
+
 
     def eliminar_evento(self, event_id):
         self.collection.delete_one({"event_id": event_id})

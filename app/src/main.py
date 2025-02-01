@@ -167,6 +167,85 @@ def eliminar_evento(event_id):
             return jsonify({"error": "Evento no encontrado"}), 404  # 🔹 Maneja cuando no se encuentra el evento
     except Exception as e:
         return jsonify({"error": "Error al eliminar el evento", "detalle": str(e)}), 500
+      
+@app.route('/eventos/<int:evento_id>', methods=['PUT'])
+def editar_evento(evento_id):
+    """
+    Editar un evento existente en SQL Server o MongoDB
+    ---
+    tags:
+      - Eventos
+    parameters:
+      - name: evento_id
+        in: path
+        required: true
+        type: integer
+        description: ID del evento a actualizar
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            categoria:
+              type: string
+              example: "social"
+            tipo:
+              type: string
+              example: "boda"
+            nombre:
+              type: string
+              example: "Boda de Ana"
+            fecha:
+              type: string
+              format: date
+              example: "2025-03-15"
+            ubicacion:
+              type: string
+              example: "Quito"
+            origen:
+              type: string
+              enum: ["sql", "mongo"]
+              example: "sql"
+    responses:
+      200:
+        description: Evento actualizado exitosamente
+      400:
+        description: Error en los datos enviados
+      404:
+        description: Evento no encontrado
+      500:
+        description: Error interno del servidor
+    """
+    try:
+        datos = request.json
+        categoria = datos.get("categoria")
+        tipo = datos.get("tipo")
+        nombre = datos.get("nombre")
+        fecha = datos.get("fecha")
+        ubicacion = datos.get("ubicacion")
+        origen = datos.get("origen")
+
+        if not categoria or not tipo or not nombre or not fecha or not ubicacion or not origen:
+            return jsonify({"error": "Faltan datos"}), 400
+
+        # Seleccionar la fábrica según la categoría
+        fabrica = EventoFactoryRouter(categoria).obtener_factory()
+
+        # Crear el objeto evento actualizado
+        evento = fabrica.crear_evento(tipo, nombre, fecha, ubicacion, categoria)
+
+        # Actualizar en la base de datos correspondiente
+        actualizado = evento_router.editar_evento(evento_id, evento, origen)
+
+        if actualizado:
+            return jsonify({"message": f"Evento actualizado en {origen}"}), 200
+        else:
+            return jsonify({"error": "Evento no encontrado"}), 404
+
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
+
 
 
 if __name__ == "__main__":

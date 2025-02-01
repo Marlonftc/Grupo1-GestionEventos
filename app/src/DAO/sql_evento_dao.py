@@ -16,15 +16,22 @@ class SQLEventoDAO:
         cursor.close()
         return evento_id
 
-    def actualizar_evento(self, event_id, evento):
+    def editar_evento(self, event_id, evento):
+        """
+        Actualiza un evento en SQL Server.
+        """
         cursor = self.conn.cursor()
         query = """
-        UPDATE Eventos SET tipo = %s, nombre = %s, fecha = %s, ubicacion = %s 
-        WHERE id_evento = %s
+            UPDATE Eventos
+            SET categoria = %s, tipo = %s, nombre = %s, fecha = %s, ubicacion = %s
+            WHERE id_evento = %s
         """
-        cursor.execute(query, (evento.tipo, evento.nombre, evento.fecha, evento.ubicacion, event_id))
+        cursor.execute(query, (evento.categoria, evento.tipo, evento.nombre, evento.fecha, evento.ubicacion, event_id))
         self.conn.commit()
         cursor.close()
+
+        return cursor.rowcount > 0  # Devuelve True si se actualizó correctamente
+
 
     def eliminar_evento(self, event_id):
         cursor = self.conn.cursor()
