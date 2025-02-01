@@ -20,6 +20,7 @@ Este es un sistema de gestión de eventos que utiliza **Flask**, **Vue.js**, **S
 - **Python 3.9+**
 - **Node.js + Vue.js**
 - **SQL Server y MongoDB**
+- Disponibilidad en los puertos: `8080`, `5000`, `27017`, y `1433`
 
 ### **2️. Clonar el Repositorio**
 ```bash
@@ -42,6 +43,11 @@ Usando `Powershell` en windows, o bash en linux
 
 ```bash
 bash init.sh
+```
+
+si no funciona o da errores ese comando, probar a ejecutar el comando de init.sh directamente en la consola:
+```bash
+docker exec -i sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'Mftc@2412' -i /SQLQuery.sql -C
 ```
 
 ### **4. Configurar y Levantar los Contenedores de Back y Frontend**

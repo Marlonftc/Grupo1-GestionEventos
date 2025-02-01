@@ -1,4 +1,3 @@
-import logging
 from flask import Flask, jsonify, Response, request
 from flask_cors import CORS
 from flasgger import Swagger
@@ -9,11 +8,12 @@ from src.routers.evento_factory_router import EventoFactoryRouter
 from src.routers.evento_dao_router import EventoDAORouter
 
 app = Flask(__name__)
-CORS(app)
+# 🔹 Habilitar CORS para TODOS los métodos y TODOS los orígenes
+CORS(app, resources={r"/*": {"origins": "*"}},
+     supports_credentials=True,
+     allow_headers=["Origin", "Content-Length", "Content-Type", "Authorization"],
+     methods=["GET", "POST", "PUT", "DELETE"])
 
-# 🔹 Configurar logging para mostrar todos los niveles de logs en consola
-logging.basicConfig(level=logging.DEBUG)
-app.logger.setLevel(logging.DEBUG)
 
 # 🔹 Configuración personalizada de Swagger con enlace a GitHub
 swagger_template = {
