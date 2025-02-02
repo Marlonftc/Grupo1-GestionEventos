@@ -1,33 +1,37 @@
-version: '3.9'
+version: '3.9'  # 🔹 Especificamos la versión de Docker Compose
+
 services:
 
-  
+  # 🔹 Servicio para la aplicación Flask (Backend)
   flask_app: 
     build:
-      context: ./app/src
-    container_name: flask_app
+      context: ./app/src  # 🔹 Directorio donde se encuentra el código fuente de Flask
+    container_name: flask_app  # 🔹 Nombre personalizado para el contenedor
     ports:
-      - "5000:5000"
+      - "5000:5000"  # 🔹 Mapea el puerto 5000 del contenedor al 5000 del host
     volumes:
-      - ./app:/usr/src/app
+      - ./app:/usr/src/app  # 🔹 Monta el código en el contenedor para reflejar cambios en tiempo real
     networks:
-      - my_network
+      - my_network  # 🔹 Conecta este servicio a la red personalizada
     environment:
-      - FLASK_APP=src.main
+      - FLASK_APP=src.main  # 🔹 Variable de entorno para indicar el punto de entrada de Flask
 
+  # 🔹 Servicio para la aplicación Frontend (Vue.js)
   frontend:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: ./frontend  # 🔹 Directorio donde se encuentra el código fuente del frontend
+      dockerfile: Dockerfile  # 🔹 Especificamos el Dockerfile a utilizar
     ports:
-      - "8082:8080"
-    container_name: frontend
+      - "8082:8080"  # 🔹 Expone el puerto 8080 del contenedor como 8082 en el host
+    container_name: frontend  # 🔹 Nombre personalizado para el contenedor
     depends_on:
-      - flask_app
+      - flask_app  # 🔹 Asegura que el backend se inicie antes que el frontend
     networks:
-      - my_network
+      - my_network  # 🔹 Conecta el servicio a la misma red del backend
     extra_hosts:
-    - "flask_app:host-gateway"
+      - "flask_app:host-gateway"  # 🔹 Permite al contenedor frontend comunicarse con flask_app
+
+# 🔹 Configuración de la red para que los contenedores se comuniquen
 networks:
   my_network:
-    driver: bridge
+    driver: bridge  # 🔹 Usa un driver bridge para la comunicación entre servicios

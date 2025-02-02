@@ -1,0 +1,20 @@
+[33m74c7760[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m, [m[1;31morigin/dev[m[33m)[m fix: :bug: Conversion del archivo init-mongo de Dos A UNIX
+[33m8fbf2a6[m feat: :sparkles: Dockerizacion del Frontend
+[33ma23ae0e[m docs: :memo: Actualizacion del Readme
+[33md27600f[m feat: :sparkles: Implementacion del Edit Evento
+[33mc15e7b8[m feat: :sparkles: Implementacion de Delete Evento
+[33mc7d4ea2[m feat: :sparkles: Vista del Reporte por categorias
+[33m9588b15[m feat: :sparkles: Actualizacion del front con nuevos eventos
+[33m2d5bc24[m feat: :sparkles: Implementacion de la DB eventos en Mongo
+[33m86e1eb7[m fix: :bug: Cambio del nombre de la db en mongo
+[33me02b4f5[m feat: :sparkles: Implementacion de la creacion de eventos
+[33me008973[m feat: :sparkles: Implementacion de Swagger
+[33mfd0bb7c[m feat: :sparkles: Separar la logica de las rutas
+[33mb74349b[m Reporte_Eliminar_Cargar
+[33m771c581[m Reporte
+[33m360db1c[m 3DockersFuncionales
+[33m7763a17[m FuncionamientoDockers
+[33madfd97c[m[33m ([m[1;31morigin/dev-cristian[m[33m)[m fix: :bug: Se arregló el despliegue de la aplicación en docker
+[33mfebe7a8[m test: uso de abstract factory
+[33m75aa521[m[33m ([m[1;31morigin/feat-front[m[33m)[m Inicio del proyecto
+[33ma7fada3[m first commit
