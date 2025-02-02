@@ -1,2 +1,4 @@
+# 🔹 Ignorar la carpeta node_modules (evita subir dependencias innecesarias)
 node_modules
+# 🔹 Ignorar archivos de entorno que pueden contener credenciales sensibles
 .env

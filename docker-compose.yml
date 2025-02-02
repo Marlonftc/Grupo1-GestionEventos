@@ -1,29 +1,34 @@
-version: '3.9'
+version: '3.9'  # 🔹 Especificamos la versión de Docker Compose
+
 services:
+
+  # 🔹 Servicio para SQL Server
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: sqlserver
+    image: mcr.microsoft.com/mssql/server:2019-latest  # 🔹 Usa la imagen oficial de SQL Server 2019
+    container_name: sqlserver  # 🔹 Nombre personalizado para el contenedor
     ports:
-      - "1433:1433"
+      - "1433:1433"  # 🔹 Expone el puerto 1433 para conexión con SQL Server desde el host
     environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "Mftc@2412"
+      ACCEPT_EULA: "Y"  # 🔹 Acepta los términos de la licencia de SQL Server
+      SA_PASSWORD: "Mftc@2412"  # 🔹 Configura la contraseña del usuario SA (Administrador)
     volumes:
-      - ./data:/data
-      - ./data/SQLQuery.sql:/SQLQuery.sql
+      - ./data:/data  # 🔹 Monta un volumen local en la carpeta `/data` del contenedor
+      - ./data/SQLQuery.sql:/SQLQuery.sql  # 🔹 Copia un archivo SQL de inicialización
     networks:
-      - my_network
+      - my_network  # 🔹 Conecta el contenedor a la red personalizada
+
+  # 🔹 Servicio para MongoDB
   mongodb:
     build:
-      context: ./MongoData
-      dockerfile: Dockerfile
-    container_name: mongodb
+      context: ./MongoData  # 🔹 Ubicación del Dockerfile para construir la imagen de MongoDB
+      dockerfile: Dockerfile  # 🔹 Nombre del Dockerfile a utilizar
+    container_name: mongodb  # 🔹 Nombre personalizado para el contenedor
     ports:
-      - "27018:27017"
+      - "27018:27017"  # 🔹 Expone el puerto 27017 del contenedor como 27018 en el host
     networks:
-      - my_network
-  
-  
+      - my_network  # 🔹 Conecta el contenedor a la misma red que SQL Server
+
+# 🔹 Definimos una red personalizada para que los contenedores puedan comunicarse
 networks:
   my_network:
-    driver: bridge
+    driver: bridge  # 🔹 Usa un driver bridge para la comunicación interna entre servicios
