@@ -55,7 +55,7 @@ docker-compose -f docker-compose-post.yml up --build -d
 ```
 Esto iniciará:
 
-- 📦 **Frontend Vue.js** en `http://localhost:8082`
+- 📦 **Frontend Vue.js** en `http://localhost:8082` Ctrl + Click
 - 📦 **API Flask** en `http://localhost:5000`
 
 
@@ -92,7 +92,7 @@ cd frontend
 npm install
 npm run dev
 ```
-La aplicación estará disponible en 🔗 [http://localhost:8082](http://localhost:8082)
+La aplicación estará disponible en 🔗 [http://localhost:8082](http://localhost:8082) Ctrl + Click
 
 ---
 
