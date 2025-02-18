@@ -1,75 +1,75 @@
-version: '3.9'  # 🔹 Especificamos la versión de Docker Compose
+version: '3.9' # 🔹 Especificamos la versión de Docker Compose
 
 services:
 
   # 🔹 Servicio para la aplicación Flask (Backend)
-  flask_app: 
+  flask_app:
     build:
-      context: ./app/src  # 🔹 Directorio donde se encuentra el código fuente de Flask
-    container_name: flask_app  # 🔹 Nombre personalizado para el contenedor
+      context: ./app/src # 🔹 Directorio donde se encuentra el código fuente de Flask
+    container_name: flask_app # 🔹 Nombre personalizado para el contenedor
     ports:
-      - "5000:5000"  # 🔹 Mapea el puerto 5000 del contenedor al 5000 del host
+      - "5000:5000" # 🔹 Mapea el puerto 5000 del contenedor al 5000 del host
     volumes:
-      - ./app:/usr/src/app  # 🔹 Monta el código en el contenedor para reflejar cambios en tiempo real
+      - ./app:/usr/src/app # 🔹 Monta el código en el contenedor para reflejar cambios en tiempo real
     networks:
-      - my_network  # 🔹 Conecta este servicio a la red personalizada
+      - my_network # 🔹 Conecta este servicio a la red personalizada
     environment:
-      - FLASK_APP=src.main  # 🔹 Variable de entorno para indicar el punto de entrada de Flask
+      - FLASK_APP=src.main # 🔹 Variable de entorno para indicar el punto de entrada de Flask
 
   # ------------- Cluster Front End ------------------
   # 🔹 Servicio para la aplicación Frontend (Vue.js)
   frontend-1:
     build:
-      context: ./frontend  # 🔹 Directorio donde se encuentra el código fuente del frontend
-      dockerfile: Dockerfile  # 🔹 Especificamos el Dockerfile a utilizar
+      context: ./frontend # 🔹 Directorio donde se encuentra el código fuente del frontend
+      dockerfile: Dockerfile # 🔹 Especificamos el Dockerfile a utilizar
     ports:
-      - "7001:8080"  # 🔹 Expone el puerto 8080 del contenedor como 8082 en el host
-    container_name: frontend-1  # 🔹 Nombre personalizado para el contenedor
+      - "7001:8080" # 🔹 Expone el puerto 8080 del contenedor como 7001 en el host
+    container_name: frontend-1 # 🔹 Nombre personalizado para el contenedor
     depends_on:
-      - flask_app  # 🔹 Asegura que el backend se inicie antes que el frontend
+      - flask_app # 🔹 Asegura que el backend se inicie antes que el frontend
     networks:
-      - my_network  # 🔹 Conecta el servicio a la misma red del backend
+      - my_network # 🔹 Conecta el servicio a la misma red del backend
     extra_hosts:
-      - "flask_app:host-gateway"  # 🔹 Permite al contenedor frontend comunicarse con flask_app
+      - "flask_app:host-gateway" # 🔹 Permite al contenedor frontend comunicarse con flask_app
   frontend-2:
     build:
-      context: ./frontend  # 🔹 Directorio donde se encuentra el código fuente del frontend
-      dockerfile: Dockerfile  # 🔹 Especificamos el Dockerfile a utilizar
+      context: ./frontend # 🔹 Directorio donde se encuentra el código fuente del frontend
+      dockerfile: Dockerfile # 🔹 Especificamos el Dockerfile a utilizar
     ports:
-      - "7002:8080"  # 🔹 Expone el puerto 8080 del contenedor como 8082 en el host
-    container_name: frontend-2  # 🔹 Nombre personalizado para el contenedor
+      - "7002:8080" # 🔹 Expone el puerto 8080 del contenedor como 7002 en el host
+    container_name: frontend-2 # 🔹 Nombre personalizado para el contenedor
     depends_on:
-      - flask_app  # 🔹 Asegura que el backend se inicie antes que el frontend
+      - flask_app # 🔹 Asegura que el backend se inicie antes que el frontend
     networks:
-      - my_network  # 🔹 Conecta el servicio a la misma red del backend
+      - my_network # 🔹 Conecta el servicio a la misma red del backend
     extra_hosts:
-      - "flask_app:host-gateway"  # 🔹 Permite al contenedor frontend comunicarse con flask_app
+      - "flask_app:host-gateway" # 🔹 Permite al contenedor frontend comunicarse con flask_app
   frontend-3:
     build:
-      context: ./frontend  # 🔹 Directorio donde se encuentra el código fuente del frontend
-      dockerfile: Dockerfile  # 🔹 Especificamos el Dockerfile a utilizar
+      context: ./frontend # 🔹 Directorio donde se encuentra el código fuente del frontend
+      dockerfile: Dockerfile # 🔹 Especificamos el Dockerfile a utilizar
     ports:
-      - "7003:8080"  # 🔹 Expone el puerto 8080 del contenedor como 8082 en el host
-    container_name: frontend-3  # 🔹 Nombre personalizado para el contenedor
+      - "7003:8080" # 🔹 Expone el puerto 8080 del contenedor como 7003 en el host
+    container_name: frontend-3 # 🔹 Nombre personalizado para el contenedor
     depends_on:
-      - flask_app  # 🔹 Asegura que el backend se inicie antes que el frontend
+      - flask_app # 🔹 Asegura que el backend se inicie antes que el frontend
     networks:
-      - my_network  # 🔹 Conecta el servicio a la misma red del backend
+      - my_network # 🔹 Conecta el servicio a la misma red del backend
     extra_hosts:
-      - "flask_app:host-gateway"  # 🔹 Permite al contenedor frontend comunicarse con flask_app
+      - "flask_app:host-gateway" # 🔹 Permite al contenedor frontend comunicarse con flask_app
   frontend-4:
     build:
-      context: ./frontend  # 🔹 Directorio donde se encuentra el código fuente del frontend
-      dockerfile: Dockerfile  # 🔹 Especificamos el Dockerfile a utilizar
+      context: ./frontend # 🔹 Directorio donde se encuentra el código fuente del frontend
+      dockerfile: Dockerfile # 🔹 Especificamos el Dockerfile a utilizar
     ports:
-      - "7004:8080"  # 🔹 Expone el puerto 8080 del contenedor como 8082 en el host
-    container_name: frontend-4  # 🔹 Nombre personalizado para el contenedor
+      - "7004:8080" # 🔹 Expone el puerto 8080 del contenedor como 7004 en el host
+    container_name: frontend-4 # 🔹 Nombre personalizado para el contenedor
     depends_on:
-      - flask_app  # 🔹 Asegura que el backend se inicie antes que el frontend
+      - flask_app # 🔹 Asegura que el backend se inicie antes que el frontend
     networks:
-      - my_network  # 🔹 Conecta el servicio a la misma red del backend
+      - my_network # 🔹 Conecta el servicio a la misma red del backend
     extra_hosts:
-      - "flask_app:host-gateway"  # 🔹 Permite al contenedor frontend comunicarse con fºlask_app
+      - "flask_app:host-gateway" # 🔹 Permite al contenedor frontend comunicarse con fºlask_app
 
   # --------- LOAD BALANCER ------------
   nginx:
@@ -77,7 +77,7 @@ services:
     volumes:
       - ./load-balancer/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./load-balancer/nginx.conf:/etc/nginx/nginx.conf:ro
-    command: [nginx-debug, '-g', 'daemon off;']
+    command: [ nginx-debug, '-g', 'daemon off;' ]
     ports:
       - "7000:8080"
       - "7890:7890"
@@ -92,4 +92,4 @@ services:
 # 🔹 Configuración de la red para que los contenedores se comuniquen
 networks:
   my_network:
-    driver: bridge  # 🔹 Usa un driver bridge para la comunicación entre servicios
+    driver: bridge # 🔹 Usa un driver bridge para la comunicación entre servicios
