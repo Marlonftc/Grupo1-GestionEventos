@@ -69,9 +69,8 @@ services:
     networks:
       - my_network # 🔹 Conecta el servicio a la misma red del backend
     extra_hosts:
-      - "flask_app:host-gateway" # 🔹 Permite al contenedor frontend comunicarse con fºlask_app
+      - "flask_app:host-gateway" # 🔹 Permite al contenedor frontend comunicarse con flask_app
 
-  # --------- LOAD BALANCER ------------
   nginx:
     image: nginx
     volumes:

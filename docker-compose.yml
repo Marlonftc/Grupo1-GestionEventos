@@ -10,7 +10,7 @@ services:
       - "1433:1433" # 🔹 Expone el puerto 1433 para conexión con SQL Server desde el host
     environment:
       ACCEPT_EULA: "Y" # 🔹 Acepta los términos de la licencia de SQL Server
-      SA_PASSWORD: "Mftc@2412" # 🔹 Configura la contraseña del usuario SA (Administrador)
+      SA_PASSWORD: "987654321sql" # 🔹 Configura la contraseña del usuario SA (Administrador)
     volumes:
       - ./data:/data # 🔹 Monta un volumen local en la carpeta `/data` del contenedor
       - ./data/SQLQuery.sql:/SQLQuery.sql # 🔹 Copia un archivo SQL de inicialización
