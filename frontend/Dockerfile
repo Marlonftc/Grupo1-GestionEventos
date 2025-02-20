@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:22
 
 # instalar un simple servidor http para servir nuestro contenido estático
 RUN npm install -g http-server
@@ -19,4 +19,4 @@ COPY . .
 RUN npm run build
 
 EXPOSE 8080
-CMD [ "http-server", "dist" ]
+CMD [ "npm", "run", "serve" ]

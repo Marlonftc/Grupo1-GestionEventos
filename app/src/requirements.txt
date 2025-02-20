@@ -3,3 +3,5 @@ flask_cors
 pymssql
 pymongo
 flasgger
+flask-bcrypt
+flask-jwt-extended

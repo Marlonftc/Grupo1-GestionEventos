@@ -20,7 +20,7 @@ Este es un sistema de gestión de eventos que utiliza **Flask**, **Vue.js**, **S
 - **Python 3.9+**
 - **Node.js + Vue.js**
 - **SQL Server y MongoDB**
-- Disponibilidad en los puertos: `8082`, `5000`, `27018`, y `1433`
+- Disponibilidad en los puertos: `7000`, `7001`, `7002`, `7003`, `7004`, `5000`, `27018`, y `1433`
 
 ### **2️. Clonar el Repositorio**
 ```bash
@@ -55,7 +55,7 @@ docker-compose -f docker-compose-post.yml up --build -d
 ```
 Esto iniciará:
 
-- 📦 **Frontend Vue.js** en `http://localhost:8082` Ctrl + Click
+- 📦 **Frontend Vue.js** en `http://localhost:8081` Ctrl + Click
 - 📦 **API Flask** en `http://localhost:5000`
 
 
@@ -90,9 +90,9 @@ Para levantar el frontend manualmente:
 ```bash
 cd frontend
 npm install
-npm run dev
+npm run serv
 ```
-La aplicación estará disponible en 🔗 [http://localhost:8082](http://localhost:8082) Ctrl + Click
+La aplicación estará disponible en 🔗 [http://localhost:8081](http://localhost:8081) Ctrl + Click
 
 ---
 
