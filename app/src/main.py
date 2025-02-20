@@ -1,11 +1,14 @@
 from flask import Flask, jsonify, Response, request
 from flask_cors import CORS
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flasgger import Swagger
 from src.factories.sql_factory import SQLEventoFactory
 from src.factories.mongo_factory import MongoEventoFactory
 from src.DAO.reporte_dao import ReporteDAO
 from src.routers.evento_factory_router import EventoFactoryRouter
 from src.routers.evento_dao_router import EventoDAORouter
+import datetime
 
 app = Flask(__name__)
 # 🔹 Habilitar CORS para TODOS los métodos y TODOS los orígenes
@@ -246,7 +249,41 @@ def editar_evento(evento_id):
     except Exception as e:
         return jsonify({"error": "Error interno del servidor", "detalle": str(e)}), 500
 
+# Configuración de JWT
+app.config["JWT_SECRET_KEY"] = "tu_clave_secreta"
+jwt = JWTManager(app)
 
+bcrypt = Bcrypt(app)
+
+# Simulación de una base de datos de usuarios
+usuarios = {
+    "admin": bcrypt.generate_password_hash("admin123").decode("utf-8"),
+    "usuario": bcrypt.generate_password_hash("usuario123").decode("utf-8"),
+}
+
+@app.route("/login", methods=["POST"])
+def login():
+    """
+    Endpoint para autenticar usuarios y generar un token JWT.
+    """
+    data = request.json
+    username = data.get("username")
+    password = data.get("password")
+
+    if username in usuarios and bcrypt.check_password_hash(usuarios[username], password):
+        token = create_access_token(identity=username, expires_delta=datetime.timedelta(hours=1))
+        return jsonify({"token": token, "user": username}), 200
+
+    return jsonify({"message": "Credenciales incorrectas"}), 401
+
+@app.route("/protegido", methods=["GET"])
+@jwt_required()
+def ruta_protegida():
+    """
+    Ruta protegida para probar autenticación.
+    """
+    usuario_actual = get_jwt_identity()
+    return jsonify({"message": f"Bienvenido {usuario_actual}"}), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
