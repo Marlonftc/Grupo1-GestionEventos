@@ -2,9 +2,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 // 🔹 Importamos las vistas que serán utilizadas en las rutas
-import HomePage from './views/HomePage.vue';
-import EventosPage from './views/EventosPage.vue';
-import ReportesPage from './views/ReportesPage.vue';
+import HomePage from '@/views/HomePage.vue';
+import EventosPage from '@/views/EventosPage.vue';
+import ReportesPage from '@/views/ReportesPage.vue';
 
 // 🔹 Definimos las rutas de la aplicación
 const routes = [
